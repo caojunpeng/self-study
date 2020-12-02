@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="assets">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <form id="personTableFrom">
+        <input name="userKeyword" type="text" class="form-control"/>
+        <button class="btn btn-primary">查询</button>
+        <button type="button" onclick="excelAnalyse()">excel解析</button>
+        <button type="button" id="userExcelExport">导出excel</button>
+        <button type="button" onclick="wordAnalyse()">word解析</button>
+        <button type="button" onclick="ztreePage()">ztree</button>
+    </form>
+    <table class="table table-bordered table-striped  table-hover" id="person-Tables">
+        <thead>
+        <tr>
+            <th>对方账户</th>
+            <th>次数</th>
+            <th>收入</th>
+            <th>支出</th>
+            <th>流水</th>
+        </tr>
+        </thead>
+    </table>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var table =$('#person-Tables').DataTable({
+        ajax: {
+            dataType: 'json',
+            url: "/user/userTable",
+            data: function(aoData){
+                var jsonData = $("#billteTablesFrom").serializeArray();
+                jsonData.forEach(function (e, index) {
+                    aoData[e.name] = e.value;
+                });
+                return aoData;
+            }
+        },
+        success: function(data){
+            debugger
+        },
+        serverSide: true,
+        searching: false,bLengthChange:false,
+        ordering:false,
+        "columns": [
+            {"data": "id"},
+            {"data": "id"},
+            {data: "id", render: function (data) {
+                    return data == null ? "0" : data
+                }},
+            {data: "id"},
+            {data: "id"},
+        ],
+        "initComplete": function(settings, json) {
+
+        },
+        responsive: true,
+        language: dataTablesLanguage,
+    });
+    // excel解析
+    function excelAnalyse() {
+        $.ajax({
+            type: "POST",
+            url: "/user/userExcel",
+            success: function (obj) {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['500px', '500px'], //宽高
+                    content: obj
+                });
+            }
+        });
+    }
+    //word解析
+    function wordAnalyse() {
+        $.ajax({
+            type: "POST",
+            url: "/user/userWord",
+            success: function (obj) {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['500px', '500px'], //宽高
+                    content: obj
+                });
+            }
+        });
+    }   //word解析
+    function ztreePage() {
+        $.ajax({
+            type: "POST",
+            url: "/user/ztreePage",
+            success: function (obj) {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['500px', '500px'], //宽高
+                    content: obj
+                });
+            }
+        });
+    }
+
+
+    $("#userExcelExport").click(function(){
+        var url = "/user/userListExport";
+        window.location.href = url;
+    });
+    
+    
+
+    /*]]>*/
+</script>
+</html>

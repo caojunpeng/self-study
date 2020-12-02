@@ -1,0 +1,18 @@
+<form id="userExcelFrom">
+<!--    id和name同时对应fileElementId值-->
+    <input type="file" id="excelFile" name="excelFile">
+    <button type="button" onclick="excelAnalyse()">excel入库</button>
+</form>
+<script type="text/javascript">
+    function excelAnalyse(){
+        $.ajaxFileUpload({
+            type: 'POST',
+            dataType: 'text',
+            url:"/user/userExcelExport",
+            fileElementId: "excelFile",
+            secureuri: false, //一般设置为false
+            success:function(data){
+            }
+        })
+    }
+</script>

@@ -1,0 +1,18 @@
+<form id="wordFrom">
+    <!--    id和name同时对应fileElementId值-->
+    <input type="file" id="wordFile" name="wordFile">
+    <button type="button" onclick="WordAnalyse()">Word入库</button>
+</form>
+<script type="text/javascript">
+    function WordAnalyse(){
+        $.ajaxFileUpload({
+            type: 'POST',
+            dataType: 'text',
+            url:"/user/userWordAnalyse",
+            fileElementId: "wordFile",
+            secureuri: false, //一般设置为false
+            success:function(data){
+            }
+        })
+    }
+</script>

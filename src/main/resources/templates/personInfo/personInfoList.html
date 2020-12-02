@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="assets">
+    <meta charset="UTF-8"></meta>
+    <title>Title</title>
+</head>
+<body>
+    <table id="person-Tables">
+        <thead>
+        <tr>
+            <th>对方账户</th>
+            <th>次数</th>
+            <th>收入</th>
+            <th>支出</th>
+            <th>流水</th>
+        </tr>
+        </thead>
+    </table>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var table =$('#person-Tables').DataTable({
+        ajax: {
+            dataType: 'json',
+            url: "/personRelation/billtbTableData",
+            data: function(aoData){
+                var jsonData = $("#billteTablesFrom").serializeArray();
+                jsonData.forEach(function (e, index) {
+                    aoData[e.name] = e.value;
+                });
+                return aoData;
+            }
+        },
+        success: function(data){
+            debugger
+
+        },
+        serverSide: true,
+        searching: false,bLengthChange:false,
+        ordering:false,
+        "columns": [
+            {"data": "oppositeCard"},
+            {"data": "total"},
+            {data: "amtIn", render: function (data) {
+                    return data == null ? "0" : data
+                }},
+            {data: "amtout"},
+            {data: "transMoneyTotle"},
+        ],
+        "initComplete": function(settings, json) {
+
+        },
+        responsive: true,
+        language: dataTablesLanguage,
+    });
+</script>
+</html>

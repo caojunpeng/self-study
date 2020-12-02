@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+</body>
+<!-- zTree CSS -->
+<link rel="stylesheet" href="/assets/zTree/css/zTreeStyle/zTreeStyle.css"/>
+<!-- zTree JavaScript -->
+<script src="/assets/zTree/js/jquery.ztree.core.js" type="text/javascript"></script>
+<script src="/assets/zTree/js/jquery.ztree.excheck.js" type="text/javascript"></script>
+<script src="/assets/zTree/js/jquery.ztree.exhide.js" type="text/javascript"></script>
+<script type="text/javascript">
+    //案件树
+    var PermissionsettingAppend = {
+        check: {
+            // 显示 / 不显示 复选框或单选框
+            enable: true,
+            // "radio":单选框 / "checkbox":复选框
+            chkStyle: "checkbox",
+           /*
+            Y 属性定义 checkbox 被勾选后的情况；
+            N 属性定义 checkbox 取消勾选后的情况；
+            "p" 表示操作会影响父级节点；
+            "s" 表示操作会影响子级节点。
+            */
+            chkboxType:  { "Y" : "s", "N" : "ps" }
+        },
+        data: {
+            simpleData: {
+                //使用 / 不使用 简单数据模式(数据是否为json)
+                enable: true,
+                //节点数据中保存唯一标识
+                idKey: "id",
+                //父节点唯一标识
+                pIdKey: "pId",
+            }
+        },
+        callback : {
+            //被勾选 或 取消勾选的事件
+            onCheck : caseZtreeAppendOnChange
+        }
+    };
+    //二级树json
+    //var data=[{"isParent":"true","name":"全部","checked":"false","pId":"-1","id":"0","open":"true"},{"isParent":"true","name":"涉毒-吸毒","checked":"false","pId":"0","id":"1","open":"true"},{"isParent":"true","name":"涉毒-容留吸毒","checked":"false","pId":"0","id":"2","open":"true"},{"isParent":"true","name":"涉毒-贩毒","checked":"false","pId":"0","id":"3","open":"true"}];
+    //三级树json
+    var dataTwo=[{"code":"310100000000","name":"上海市公安局","checked":"false","pId":"310000000000","id":"310100000000","open":"true"},{"code":"310101000000","name":"黄浦公安分局","checked":"false","pId":"310100000000","id":"310101000000","open":"true"},{"code":"310104000000","name":"徐汇公安分局","checked":"false","pId":"310100000000","id":"310104000000","open":"true"},{"code":"310105000000","name":"长宁公安分局直属","checked":"false","pId":"310100000000","id":"310105000000","open":"true"},{"code":"310106000000","name":"静安公安分局","checked":"false","pId":"310100000000","id":"310106000000","open":"true"},{"code":"310121000000","name":"文保公安分局","checked":"false","pId":"310100000000","id":"310121000000","open":"true"},{"code":"310122000000","name":"水上公安分局","checked":"false","pId":"310100000000","id":"310122000000","open":"true"},{"code":"310123000000","name":"轨道公安分局","checked":"false","pId":"310100000000","id":"310123000000","open":"true"},{"code":"310124000000","name":"公交公安分局","checked":"false","pId":"310100000000","id":"310124000000","open":"true"},{"code":"310125000000","name":"机场公安分局","checked":"false","pId":"310100000000","id":"310125000000","open":"true"},{"code":"310121590000","name":"沪东高校派出所","checked":"false","pId":"310121000000","id":"310121590000","open":"true"},{"code":"310121600000","name":"沪西高校派出所","checked":"false","pId":"310121000000","id":"310121600000","open":"true"},{"code":"310121610000","name":"闵行高校派出所","checked":"false","pId":"310121000000","id":"310121610000","open":"true"},{"code":"310122410000","name":"吴淞水上派出所","checked":"false","pId":"310122000000","id":"310122410000","open":"true"},{"code":"310122420000","name":"杨浦水上派出所","checked":"false","pId":"310122000000","id":"310122420000","open":"true"},{"code":"310122430000","name":"外滩水上派出所","checked":"false","pId":"310122000000","id":"310122430000","open":"true"},{"code":"310122440000","name":"曹家渡水上派出所","checked":"false","pId":"310122000000","id":"310122440000","open":"true"},{"code":"310122450000","name":"新闸水上派出所","checked":"false","pId":"310122000000","id":"310122450000","open":"true"},{"code":"310122460000","name":"石洞口水上派出所","checked":"false","pId":"310122000000","id":"310122460000","open":"true"},{"code":"310123410000","name":"上海火车站站派出所","checked":"false","pId":"310123000000","id":"310123410000","open":"true"},{"code":"310123420000","name":"徐家汇站派出所","checked":"false","pId":"310123000000","id":"310123420000","open":"true"},{"code":"310123430000","name":"人民广场站派出所","checked":"false","pId":"310123000000","id":"310123430000","open":"true"},{"code":"310123440000","name":"陆家嘴站派出所","checked":"false","pId":"310123000000","id":"310123440000","open":"true"},{"code":"310123450000","name":"宜山路站派出所","checked":"false","pId":"310123000000","id":"310123450000","open":"true"},{"code":"310123460000","name":"东宝兴路站派出所","checked":"false","pId":"310123000000","id":"310123460000","open":"true"},{"code":"310123470000","name":"虹桥综合交通枢纽治安派出所","checked":"false","pId":"310123000000","id":"310123470000","open":"true"},{"code":"310124160000","name":"治安派出所","checked":"false","pId":"310124000000","id":"310124160000","open":"true"},{"code":"310125300900","name":"虹桥机场场区治安派出所","checked":"false","pId":"310125000000","id":"310125300900","open":"true"},{"code":"310125303100","name":"虹桥机场侯机楼派出所","checked":"false","pId":"310125000000","id":"310125303100","open":"true"},{"code":"310125410000","name":"浦东机场候机楼派出所","checked":"false","pId":"310125000000","id":"310125410000","open":"true"},{"code":"310125420000","name":"市内航站楼治安派出所","checked":"false","pId":"310125000000","id":"310125420000","open":"true"},{"code":"310125430000","name":"浦东机场场区治安派出所","checked":"false","pId":"310125000000","id":"310125430000","open":"true"},{"code":"310125440000","name":"虹桥国际机场西场区治安派出所","checked":"false","pId":"310125000000","id":"310125440000","open":"true"},{"code":"310101400000","name":"人民广场治安派出所","checked":"false","pId":"310101000000","id":"310101400000","open":"true"},{"code":"310101410000","name":"外滩派出所","checked":"false","pId":"310101000000","id":"310101410000","open":"true"},{"code":"310101430000","name":"南京东路派出所","checked":"false","pId":"310101000000","id":"310101430000","open":"true"},{"code":"310101450000","name":"豫园派出所","checked":"false","pId":"310101000000","id":"310101450000","open":"true"},{"code":"310101460000","name":"小东门派出所","checked":"false","pId":"310101000000","id":"310101460000","open":"true"},{"code":"310101470000","name":"老西门派出所","checked":"false","pId":"310101000000","id":"310101470000","open":"true"},{"code":"310101490000","name":"半淞园派出所","checked":"false","pId":"310101000000","id":"310101490000","open":"true"},{"code":"310101500000","name":"外滩治安派出所","checked":"false","pId":"310101000000","id":"310101500000","open":"true"},{"code":"310103410000","name":"瑞金二路派出所","checked":"false","pId":"310101000000","id":"310103410000","open":"true"},{"code":"310103420000","name":"淮海中路派出所","checked":"false","pId":"310101000000","id":"310103420000","open":"true"},{"code":"310103430000","name":"打浦桥派出所","checked":"false","pId":"310101000000","id":"310103430000","open":"true"},{"code":"310103440000","name":"五里桥派出所","checked":"false","pId":"310101000000","id":"310103440000","open":"true"},{"code":"310103450000","name":"新天地治安派出所","checked":"false","pId":"310101000000","id":"310103450000","open":"true"},{"code":"310104410000","name":"徐家汇派出所","checked":"false","pId":"310104000000","id":"310104410000","open":"true"},{"code":"310104420000","name":"枫林路派出所","checked":"false","pId":"310104000000","id":"310104420000","open":"true"},{"code":"310104430000","name":"天平路派出所","checked":"false","pId":"310104000000","id":"310104430000","open":"true"},{"code":"310104440000","name":"湖南路派出所","checked":"false","pId":"310104000000","id":"310104440000","open":"true"},{"code":"310104460000","name":"虹梅派出所","checked":"false","pId":"310104000000","id":"310104460000","open":"true"},{"code":"310104520000","name":"斜土路派出所","checked":"false","pId":"310104000000","id":"310104520000","open":"true"},{"code":"310104530000","name":"华泾派出所","checked":"false","pId":"310104000000","id":"310104530000","open":"true"},{"code":"310104540000","name":"漕河泾派出所","checked":"false","pId":"310104000000","id":"310104540000","open":"true"},{"code":"310104550000","name":"龙华派出所","checked":"false","pId":"310104000000","id":"310104550000","open":"true"},{"code":"310104560000","name":"长桥新村派出所","checked":"false","pId":"310104000000","id":"310104560000","open":"true"},{"code":"310104570000","name":"田林新村派出所","checked":"false","pId":"310104000000","id":"310104570000","open":"true"},{"code":"310104590000","name":"康健新村派出所","checked":"false","pId":"310104000000","id":"310104590000","open":"true"},{"code":"310104600000","name":"凌云路派出所","checked":"false","pId":"310104000000","id":"310104600000","open":"true"},{"code":"310104610000","name":"上海南站治安派出所","checked":"false","pId":"310104000000","id":"310104610000","open":"true"},{"code":"310104620000","name":"上海体育中心治安派出所","checked":"false","pId":"310104000000","id":"310104620000","open":"true"},{"code":"310105410000","name":"新虹桥派出所","checked":"false","pId":"310105000000","id":"310105410000","open":"true"},{"code":"310105420000","name":"华阳路派出所","checked":"false","pId":"310105000000","id":"310105420000","open":"true"},{"code":"310105430000","name":"天山路派出所","checked":"false","pId":"310105000000","id":"310105430000","open":"true"},{"code":"310105510000","name":"江苏路派出所","checked":"false","pId":"310105000000","id":"310105510000","open":"true"},{"code":"310105520000","name":"新华路派出所","checked":"false","pId":"310105000000","id":"310105520000","open":"true"},{"code":"310105530000","name":"周家桥派出所","checked":"false","pId":"310105000000","id":"310105530000","open":"true"},{"code":"310105540000","name":"仙霞路派出所","checked":"false","pId":"310105000000","id":"310105540000","open":"true"},{"code":"310105550000","name":"虹桥路派出所","checked":"false","pId":"310105000000","id":"310105550000","open":"true"},{"code":"310105560000","name":"北新泾派出所","checked":"false","pId":"310105000000","id":"310105560000","open":"true"},{"code":"310105570000","name":"新泾派出所","checked":"false","pId":"310105000000","id":"310105570000","open":"true"},{"code":"310105580000","name":"程家桥派出所","checked":"false","pId":"310105000000","id":"310105580000","open":"true"},{"code":"310106410000","name":"静安寺派出所","checked":"false","pId":"310106000000","id":"310106410000","open":"true"},{"code":"310106420000","name":"曹家渡派出所","checked":"false","pId":"310106000000","id":"310106420000","open":"true"},{"code":"310106430000","name":"江宁路派出所","checked":"false","pId":"310106000000","id":"310106430000","open":"true"}];
+   /*
+    isParent:是否为父级节点
+    name：节点名称
+    checked：是否为选中状态
+    pId：父级节点id
+    id：唯一标识
+    open：暂开状态
+    {"isParent":"true","name":"涉毒-容留吸毒","checked":"false","pId":"0","id":"2","open":"true"}
+    {"isParent":"false","name":"银行调试","checked":"false","pId":"2","id":"1613132131321513214","open":"true"}
+    */
+    $(document).ready(function(){
+        zTreeObj = $.fn.zTree.init($("#treeDemo"), PermissionsettingAppend, dataTwo);
+    });
+    //案件树change事件
+    function caseZtreeAppendOnChange(event, treeId, treeNode) {
+        //如果点击的子叶节点 那么将父级节点取消
+        var id = treeNode.id;
+        var pId = "";
+        if(id!=0){
+            var parentId  = $("#"+treeNode.tId).parent()[0].id.replace("ul","check");
+            if($("#"+parentId).hasClass("checkbox_true_part")){
+                $("#"+parentId).removeClass("checkbox_true_part").addClass("checkbox_false_full");
+            }
+            pId = treeNode.pId
+        }
+    }
+
+</script>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="assets">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>主页</h1>
+    <!--<img src='images/head.jpg' alt="图片失效">-->
+    <a href="http://www.baidu.com" >www.baidu.com</a>
+    <button type="button" onclick="userList()">用户信息列表</button>
+    <div id="indexhtml"></div>
+</body>
+<script type="text/javascript">
+    function userList() {
+        $.ajax({
+            type: "POST",
+            url: "/user/userList",
+            success: function (obj) {
+                $("#indexhtml").html(obj);
+            }
+        });
+    }
+    function excel(){
+        $.ajax({
+            type: "POST",
+            url: "/excel",
+            success: function (obj) {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['500px', '500px'], //宽高
+                    content: obj
+                });
+            }
+        });
+    }
+</script>
+</html>
